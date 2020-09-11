@@ -41,7 +41,7 @@ var displayTopTen = function (gameDataArr) {
 }
 
 var getGameDetails = async function (gameName) {
-    fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
+    await fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
@@ -50,6 +50,7 @@ var getGameDetails = async function (gameName) {
     })
         .then(response => {
             response.json().then(function(data) {
+                console.log(data);
                 return data;
             });
         })
