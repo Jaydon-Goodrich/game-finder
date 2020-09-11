@@ -70,6 +70,7 @@ var searchSubmit = function(event){
     if(gameTitle){
         var game = gameTitle.toLowerCase().split(" ").join("-"); 
         var gameObj = getGameDetails(game);
+        
     }
     searchText.value = "";
 
