@@ -1,4 +1,7 @@
 var topTenBoxEl = document.querySelector("#top-ten");
+var reviewEl = document.querySelector("#review");
+var searchEl = document.querySelector("#userSearch");
+var searchText = document.querySelector("#gameSearch");
 
 var getTopTen = function () {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
@@ -59,3 +62,30 @@ var getGameDetails = async function (gameData) {
 }
 
 getTopTen();
+
+
+var searchSubmit = function(event){
+    event.preventDefault();
+    var gameTitle = searchText.value.trim();
+    if(gameTitle){
+        var game = gameTitle.toLowerCase().split(" ").join("-"); 
+        getGameDetails(game);
+    }
+    searchText.value = "";
+
+}
+
+// fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
+// )
+// .then(response => {
+// 	response.json().then(function (data){
+//         console.log(data);
+//         var bodyReview = data.results[0].body;
+//         searchEl.innerHTML = bodyReview;
+//     })
+// })
+// .catch(err => {
+// 	console.log(err);
+// });
+
+searchEl.addEventListener("submit", searchSubmit);
