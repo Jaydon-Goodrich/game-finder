@@ -33,15 +33,15 @@ var displayTopTen = function (gameDataArr) {
         gameScoreEl.textContent = gameDataArr[i].metacritic;
         gameBoxEl.appendChild(gameScoreEl);
 
-        var gameDetails = getGameDetails(gameDataArr[i]);
+        var gameDetails = getGameDetails(gameDataArr[i].slug);
         console.log(gameDetails);
 
         topTenBoxEl.appendChild(gameBoxEl);
     }
 }
 
-var getGameDetails = async function (gameData) {
-    fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameData.slug}`, {
+var getGameDetails = async function (gameName) {
+    fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
@@ -49,7 +49,7 @@ var getGameDetails = async function (gameData) {
         }
     })
         .then(response => {
-            response.json().then(data => {
+            response.json().then(function(data) {
                 return data;
             });
         })
