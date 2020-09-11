@@ -23,39 +23,44 @@ var getTopTen = function () {
 }
 
 var displayTopTen = function (gameDataArr) {
-    for (var i = 0; i < 1 && i < gameDataArr.length; i++) {
-        // console.log(gameDataArr[i]);
-
-        var gameBoxEl = document.createElement("div");
-        gameBoxEl.setAttribute("id", gameDataArr[i].id);
-
-        var gameTitleEl = document.createElement("h2");
-        gameTitleEl.textContent = gameDataArr[i].name;
-        gameBoxEl.appendChild(gameTitleEl);
-
-        var gameScoreEl = document.createElement("p");
-        gameScoreEl.textContent = gameDataArr[i].metacritic;
-        gameBoxEl.appendChild(gameScoreEl);
-
-        var gameDetails = getGameDetails(gameDataArr[i].slug);
-        console.log(gameDetails);
-
-        topTenBoxEl.appendChild(gameBoxEl);
+    for (var i = 9; i >= 0; i--) {
+        getGameDetails(gameDataArr[i].slug);
     }
 }
 
+var createMainCard = function (gameDetails) {
+    console.log(gameDetails);
+    var gameBoxEl = document.createElement("div");
+    gameBoxEl.setAttribute("id", gameDetails.slug);
+
+    var gameTitleEl = document.createElement("h2");
+    gameTitleEl.textContent = gameDetails.name;
+    gameBoxEl.appendChild(gameTitleEl);
+
+    var gameScoreEl = document.createElement("p");
+    gameScoreEl.textContent = `Metacritic score: ${gameDetails.metacritic}`;
+    gameBoxEl.appendChild(gameScoreEl);
+
+    var gameEsrbEl = document.createElement("p");
+    gameEsrbEl.textContent = `ESRB rating: ${gameDetails.esrb_rating.name}`;
+    gameBoxEl.appendChild(gameEsrbEl);
+
+
+
+    topTenBoxEl.prepend(gameBoxEl);
+}
+
 var getGameDetails = async function (gameName) {
-    fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
+    await fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
             "x-rapidapi-key": "b26c93ba6cmshec93fde4486eaf6p1c7506jsn8451a97d31ae"
         }
     })
-        .then(response => {
+        .then(async (response) => {
             response.json().then(function(data) {
-                //displayGameData(data);
-                return(data);
+                createMainCard(data);
             });
         })
         .catch(err => {
@@ -63,14 +68,12 @@ var getGameDetails = async function (gameName) {
         });
 }
 
-getTopTen();
 
-
-var searchSubmit = function(event){
+var searchSubmit = function (event) {
     event.preventDefault();
     var gameTitle = searchText.value.trim();
-    if(gameTitle){
-        var game = gameTitle.toLowerCase().split(" ").join("-"); 
+    if (gameTitle) {
+        var game = gameTitle.toLowerCase().split(" ").join("-");
         getGameDetails(game);
 
     }
@@ -78,8 +81,7 @@ var searchSubmit = function(event){
 
 }
 
-var displayGameData = function(data){
-    console.log(data);
+var displayGameData = function (data) {
     var resultTag = document.createElement("button");
     resultTag.textContent = data.name;
     searchResultEl.appendChild(resultTag);
@@ -99,3 +101,6 @@ var displayGameData = function(data){
 // });
 
 searchEl.addEventListener("submit", searchSubmit);
+
+
+getTopTen();
