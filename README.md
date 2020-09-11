@@ -15,3 +15,17 @@
     * The publisher Company
     * The developer Company
     * The Where the game is available, and how much it costs currently at those locations.
+    
+## Contributors
+
+Jaydon Goodrich
+James Dean
+Nickolas Foster
+Josh Miller
+
+## Where to find the game
+
+[Click Here](sithSlave.github.io/game-finder)
+
+## Screenshots
+
