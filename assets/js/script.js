@@ -42,7 +42,15 @@ var createMainCard = function (gameDetails) {
     gameBoxEl.appendChild(gameScoreEl);
 
     var gameEsrbEl = document.createElement("p");
-    gameEsrbEl.textContent = `ESRB rating: ${gameDetails.esrb_rating.name}`;
+    var gameRating = gameDetails.esrb_rating;
+    console.log(gameRating);
+    if(gameRating === null){
+        gameEsrbEl.textContent = `ESRB rating: NR`;
+    }
+    else{
+        gameEsrbEl.textContent = `ESRB rating: ${gameRating.name}`;
+    }
+    
     gameBoxEl.appendChild(gameEsrbEl);
 
 
