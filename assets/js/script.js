@@ -69,7 +69,7 @@ var searchSubmit = function(event){
     var gameTitle = searchText.value.trim();
     if(gameTitle){
         var game = gameTitle.toLowerCase().split(" ").join("-"); 
-        getGameDetails(game);
+        var gameObj = getGameDetails(game);
     }
     searchText.value = "";
 
