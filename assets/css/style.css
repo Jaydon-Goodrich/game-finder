@@ -1,0 +1,58 @@
+body {
+    background: #3B3B3B;
+}
+
+header {
+    background: #0D1E39;
+    padding: 5px;
+    margin: -10px
+
+}
+
+h1 {
+    color: #ffffff;
+    float: right;
+    top: 0px;
+    
+    
+}
+
+.toph2 {
+    color: #ffffff;
+    text-align: left;
+    display: block;
+}
+
+form {
+    
+}
+
+button {
+    background: #0078e7;
+    border-radius: 5px;
+}
+
+#gameSearch {
+    border-radius: 5px;
+
+}
+
+.cards {
+
+}
+
+p {
+    color: #AEA43F;
+}
+
+h2 {
+    color: #AEA43F;
+    width: 50%;
+}
+
+.myfooter {
+    background: #0D1E39;
+    padding: 50px;
+    margin: -10px
+    
+}
