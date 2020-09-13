@@ -34,12 +34,8 @@ var createMainCard = function (gameDetails) {
     gameBoxEl.setAttribute("id", gameDetails.slug);
 
     var gameCardEl = document.createElement("div");
-    gameCardEl.setAttribute("class", "pure-u-1-4 pure-u-lg-1-8");
+    gameCardEl.setAttribute("class", "pure-u-1 pure-u-sm-1-3 pure-u-md-1-2 pure-u-lg-1-8 tiles");
     gameBoxEl.appendChild(gameCardEl);
-
-    var gameStyleEl = document.createElement("div");
-    gameStyleEl.setAttribute("class", "tiles");
-    gameBoxEl.appendChild(gameStyleEl);
 
     var gameTitleEl = document.createElement("h2");
     gameTitleEl.textContent = gameDetails.name;
