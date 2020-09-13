@@ -35,6 +35,10 @@ button {
     border-radius: 5px;
 }
 
+#top-ten {
+    padding-bottom: 430px;;
+}
+
 .tiles {
     background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
     border-radius: 5%;
@@ -42,7 +46,8 @@ button {
     padding-bottom: 5px;
     padding-left: 20px;
     padding-top: 5px;
-    border-style: solid;
+    margin: 15px;
+    block-size: 200px;
 }
 
 p {
@@ -51,26 +56,13 @@ p {
 
 h2 {
     color: #AEA43F;
-    width: 50%;
+    min-width: 100%;
+    min-height: 25%;
 }
 
 .myfooter {
     background: #0D1E39;
     padding: 50px;
     margin: -10px
-    
 }
 
-.index{
-    background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
-    border-radius: 15px;
-    z-index: 2147483638;
-    padding-bottom: 5px;
-    padding-left: 20px;
-    padding-top: 5px;
-    border-style: solid;
-}
-
-.box{
-    padding-left: 20px;
-}
