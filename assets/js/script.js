@@ -38,6 +38,9 @@ var createMainCard = function (gameDetails) {
     var gameBoxEl = document.createElement("div");
     gameBoxEl.setAttribute("id", gameDetails.slug);
 
+    var gameCardEl = document.createElement("div");
+    gameBoxEl.setAttribute("class", "pure-u-1 pure-u-sm-1-3 pure-u-md-1-2 pure-u-lg-1-8 tiles");
+
     var gameTitleEl = document.createElement("h2");
     gameTitleEl.textContent = gameDetails.name;
     gameBoxEl.appendChild(gameTitleEl);
@@ -56,6 +59,10 @@ var createMainCard = function (gameDetails) {
     }
     
     gameBoxEl.appendChild(gameEsrbEl);
+
+    
+
+
 
 
 
@@ -94,23 +101,23 @@ var searchSubmit = function (event) {
 }
 
 
-// fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
-// )
-// .then(response => {
-// 	response.json().then(function (data){
-//         console.log(data);
-//         var bodyReview = data.results[0].body;
-//         searchEl.innerHTML = bodyReview;
-//     })
-// })
-// .catch(err => {
-// 	console.log(err);
-// });
+fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
+)
+.then(response => {
+	response.json().then(function (data){
+        console.log(data);
+        var bodyReview = data.results[0].body;
+        searchEl.innerHTML = bodyReview;
+    })
+})
+.catch(err => {
+	console.log(err);
+});
 
 searchEl.addEventListener("submit", searchSubmit);
 
 
-// getTopTen();
+//getTopTen();
 closeButton.addEventListener("click", function() {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
