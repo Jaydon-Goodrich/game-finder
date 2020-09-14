@@ -42,7 +42,15 @@ var createMainCard = function (gameDetails) {
     gameBoxEl.appendChild(gameScoreEl);
 
     var gameEsrbEl = document.createElement("p");
-    gameEsrbEl.textContent = `ESRB rating: ${gameDetails.esrb_rating.name}`;
+    var gameRating = gameDetails.esrb_rating;
+    console.log(gameRating);
+    if(gameRating === null){
+        gameEsrbEl.textContent = `ESRB rating: NR`;
+    }
+    else{
+        gameEsrbEl.textContent = `ESRB rating: ${gameRating.name}`;
+    }
+    
     gameBoxEl.appendChild(gameEsrbEl);
 
 
@@ -81,11 +89,6 @@ var searchSubmit = function (event) {
 
 }
 
-var displayGameData = function (data) {
-    var resultTag = document.createElement("button");
-    resultTag.textContent = data.name;
-    searchResultEl.appendChild(resultTag);
-}
 
 // fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
 // )
