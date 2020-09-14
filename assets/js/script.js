@@ -4,6 +4,11 @@ var searchEl = document.querySelector("#userSearch");
 var searchText = document.querySelector("#gameSearch");
 var searchResultEl = document.querySelector("#search-result");
 
+var modal = document.querySelector("#modal");
+var modalOverlay = document.querySelector("#modal-overlay");
+var closeButton = document.querySelector("#close-button");
+var openButton = document.querySelector("#open-button");
+
 var getTopTen = function () {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
         "method": "GET",
@@ -43,7 +48,6 @@ var createMainCard = function (gameDetails) {
 
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-    console.log(gameRating);
     if(gameRating === null){
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
@@ -106,4 +110,13 @@ var searchSubmit = function (event) {
 searchEl.addEventListener("submit", searchSubmit);
 
 
-getTopTen();
+// getTopTen();
+closeButton.addEventListener("click", function() {
+    modal.classList.toggle("closed");
+    modalOverlay.classList.toggle("closed");
+  });
+  
+  openButton.addEventListener("click", function() {
+    modal.classList.toggle("closed");
+    modalOverlay.classList.toggle("closed");
+  });
