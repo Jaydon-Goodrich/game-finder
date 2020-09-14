@@ -3,6 +3,9 @@ var reviewEl = document.querySelector("#review");
 var searchEl = document.querySelector("#userSearch");
 var searchText = document.querySelector("#gameSearch");
 var searchResultEl = document.querySelector("#search-result");
+var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
+
+console.log(pastSearches);
 
 var getTopTen = function () {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
@@ -29,7 +32,6 @@ var displayTopTen = function (gameDataArr) {
 }
 
 var createMainCard = function (gameDetails) {
-    console.log(gameDetails);
     var gameBoxEl = document.createElement("div");
     gameBoxEl.setAttribute("id", gameDetails.slug);
 
@@ -46,8 +48,7 @@ var createMainCard = function (gameDetails) {
 
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-    console.log(gameRating);
-    if(gameRating === null){
+    if(!gameRating){
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
     else{
@@ -55,12 +56,6 @@ var createMainCard = function (gameDetails) {
     }
     
     gameBoxEl.appendChild(gameEsrbEl);
-
-    
-
-
-
-
 
     topTenBoxEl.prepend(gameBoxEl);
 }
@@ -86,14 +81,17 @@ var getGameDetails = async function (gameName) {
 
 var searchSubmit = function (event) {
     event.preventDefault();
-    var gameTitle = searchText.value.trim();
+    var gameTitle = {}
+    gameTitle.name = searchText.value.trim();
     if (gameTitle) {
-        var game = gameTitle.toLowerCase().split(" ").join("-");
-        getGameDetails(game);
+        gameTitle.slug = gameTitle.name.toLowerCase().split(" ").join("-");
 
+        getGameDetails(gameTitle.slug);
+        pastSearches.push(gameTitle);
+        localStorage.setItem("searches", JSON.stringify(pastSearches));
+        console.log(pastSearches);
     }
     searchText.value = "";
-
 }
 
 
@@ -111,6 +109,5 @@ var searchSubmit = function (event) {
 // });
 
 searchEl.addEventListener("submit", searchSubmit);
-
 
 getTopTen();
