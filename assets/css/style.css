@@ -1,5 +1,5 @@
  .modal {
-  display: block;
+  display: none;
   
   width: 600px;
   max-width: 100%;
@@ -22,10 +22,11 @@
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
 .closed {
-  display: none;
+  display: block;
 }
 
 .modal-overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -59,6 +60,11 @@
   color: white;
   padding: 5px 10px;
   font-size: 1.3rem;
+}
+.modal-title{
+  color: black;
+  float: none;
+  padding: 10px;
 }
 
 .open-button {

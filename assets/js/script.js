@@ -8,6 +8,13 @@ var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
 var closeButton = document.querySelector("#close-button");
 var openButton = document.querySelector("#open-button");
+var modalReviewTitle = document.querySelector("#modal-review-title");
+var modalBody = document.querySelector("#modal-body");
+var modalTitle = document.querySelector("#modal-title");
+var reviewAuthor = document.querySelector("#review-author");
+var modalImage = document.querySelector("#modal-image");
+
+
 
 var getTopTen = function () {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
@@ -51,16 +58,16 @@ var createMainCard = function (gameDetails) {
 
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-    if(gameRating === null){
+    if (gameRating === null) {
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
-    else{
+    else {
         gameEsrbEl.textContent = `ESRB rating: ${gameRating.name}`;
     }
-    
+
     gameBoxEl.appendChild(gameEsrbEl);
 
-    
+
 
 
 
@@ -78,7 +85,7 @@ var getGameDetails = async function (gameName) {
         }
     })
         .then(async (response) => {
-            response.json().then(function(data) {
+            response.json().then(function (data) {
                 createMainCard(data);
             });
         })
@@ -101,29 +108,54 @@ var searchSubmit = function (event) {
 }
 
 
-fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
-)
-.then(response => {
-	response.json().then(function (data){
-        console.log(data);
-        var bodyReview = data.results[0].body;
-        searchEl.innerHTML = bodyReview;
-    })
-})
-.catch(err => {
-	console.log(err);
-});
+
 
 searchEl.addEventListener("submit", searchSubmit);
 
 
+var createModal = function () {
+    fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
+    )
+        .then(response => {
+            response.json().then(function (data) {
+                //Create a brief review
+                var longString = data.results[0].body;
+                var shortString = longString.substr(0, 350);
+                var ReviewTitle = data.results[0].title;
+                var bodyReview = shortString;
+                var fullReview = document.createElement("a");
+                fullReview.textContent = "...See Full Article HERE";
+                fullReview.setAttribute("href", data.results[0].site_detail_url);
+
+                //Game Details
+                var gameTitle = data.results[0].game["name"];
+                var author = data.results[0].authors;
+
+                //Set the Image URL
+                var imgUrl = data.results[0].image["screen_tiny"];
+                modalImage.setAttribute("src", imgUrl);
+                
+                //Add the details to the modal
+                modalBody.innerHTML = bodyReview;
+                modalTitle.textContent = gameTitle;
+                modalReviewTitle.textContent = ReviewTitle;
+                reviewAuthor.textContent = "By: " + author;
+                modalBody.appendChild(fullReview);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+createModal();
 //getTopTen();
-closeButton.addEventListener("click", function() {
+closeButton.addEventListener("click", function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
-  });
-  
-  openButton.addEventListener("click", function() {
+});
+
+openButton.addEventListener("click", function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
-  });
+});
