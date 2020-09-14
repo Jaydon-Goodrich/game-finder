@@ -13,6 +13,7 @@ var modalBody = document.querySelector("#modal-body");
 var modalTitle = document.querySelector("#modal-title");
 var reviewAuthor = document.querySelector("#review-author");
 var modalImage = document.querySelector("#modal-image");
+var MainCard = document.querySelector("#main-card");
 
 
 
@@ -41,9 +42,12 @@ var displayTopTen = function (gameDataArr) {
 }
 
 var createMainCard = function (gameDetails) {
-    console.log(gameDetails);
-    var gameBoxEl = document.createElement("div");
-    gameBoxEl.setAttribute("id", gameDetails.slug);
+    var gameBoxEl = document.createElement("button");
+    gameBoxEl.setAttribute("id", "open-button");
+    // gameBoxEl.setAttribute("id", gameDetails.slug);
+    var preFormatedGameTitle = gameDetails.name;
+    var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
+    gameBoxEl.setAttribute("data-id", formatedGameTitle);
 
     var gameCardEl = document.createElement("div");
     gameBoxEl.setAttribute("class", "pure-u-1 pure-u-sm-1-3 pure-u-md-1-2 pure-u-lg-1-8 tiles");
@@ -66,11 +70,6 @@ var createMainCard = function (gameDetails) {
     }
 
     gameBoxEl.appendChild(gameEsrbEl);
-
-
-
-
-
 
 
     topTenBoxEl.prepend(gameBoxEl);
@@ -107,18 +106,23 @@ var searchSubmit = function (event) {
 
 }
 
-
-
-
-searchEl.addEventListener("submit", searchSubmit);
-
-
-var createModal = function () {
-    fetch("https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=2&filter=title:call%of%duty%warzone"
+var createModal = function (gameId) {
+    fetch(`https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=1&filter=title:${gameId}`
     )
         .then(response => {
             response.json().then(function (data) {
                 //Create a brief review
+                if(data.number_of_total_results === 0){
+                    var gameIdTitle = gameId.toUpperCase().split("%").join(" ");
+                    modalTitle.textContent = gameIdTitle;
+                    modalReviewTitle.textContent = "";
+                    reviewAuthor.textContent = "";
+                    modalImage.setAttribute("src", "");
+                    modalBody.innerHTML = "There are no reviews for this game title";
+                    openModal();
+                }
+                else{
+                
                 var longString = data.results[0].body;
                 var shortString = longString.substr(0, 350);
                 var ReviewTitle = data.results[0].title;
@@ -141,6 +145,8 @@ var createModal = function () {
                 modalReviewTitle.textContent = ReviewTitle;
                 reviewAuthor.textContent = "By: " + author;
                 modalBody.appendChild(fullReview);
+                openModal();
+                }
             })
         })
         .catch(err => {
@@ -148,14 +154,26 @@ var createModal = function () {
         });
 }
 
-createModal();
-//getTopTen();
-closeButton.addEventListener("click", function () {
+var openModal = function(){
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
-});
+}
 
-openButton.addEventListener("click", function () {
+
+
+searchEl.addEventListener("submit", searchSubmit);
+
+topTenBoxEl.addEventListener("click", function(e){
+    if(e.target && e.target.matches("button")){
+        var gameTitleFormat = e.target.getAttribute("data-id");
+        console.log(gameTitleFormat);
+        createModal(gameTitleFormat);
+    }
+    
+})
+
+getTopTen();
+closeButton.addEventListener("click", function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
 });
