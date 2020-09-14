@@ -1,0 +1,68 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background: #3B3B3B;
+}
+
+header {
+    background: #0D1E39;
+    padding: 5px;
+    margin: -10px
+}
+
+h1 {
+    color: #ffffff;
+    float: right;
+    margin-top: 0em;
+}
+
+.toph2 {
+    color: #ffffff;
+    text-align: left;
+    display: block;
+}
+
+button {
+    background: #0078e7;
+    border-radius: 5px;
+}
+
+#gameSearch {
+    border-radius: 5px;
+}
+
+#top-ten {
+    padding-bottom: 430px;;
+}
+
+.tiles {
+    background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
+    border-radius: 5%;
+    border-radius: 15px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-top: 5px;
+    margin: 15px;
+    block-size: 200px;
+}
+
+p {
+    color: #AEA43F;
+}
+
+h2 {
+    color: #AEA43F;
+    min-width: 100%;
+    min-height: 25%;
+}
+
+.myfooter {
+    background: #0D1E39;
+    padding: 50px;
+    margin: -10px
+}
+
