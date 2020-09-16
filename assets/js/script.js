@@ -8,7 +8,7 @@ var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
 var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
 var closeButton = document.querySelector("#close-button");
-var openButton = document.querySelector("#open-button");
+var openButton = document.querySelector("#game-card");
 var modalReviewTitle = document.querySelector("#modal-review-title");
 var modalBody = document.querySelector("#modal-body");
 var modalTitle = document.querySelector("#modal-title");
@@ -21,7 +21,7 @@ var MainCard = document.querySelector("#main-card");
 var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
 var closeButton = document.querySelector("#close-button");
-var openButton = document.querySelector("#open-button");
+var openButton = document.querySelector("#game-card");
 var modalReviewTitle = document.querySelector("#modal-review-title");
 var modalBody = document.querySelector("#modal-body");
 var modalTitle = document.querySelector("#modal-title");
@@ -57,7 +57,7 @@ var displayTopTen = function (gameDataArr) {
 
 var createMainCard = function (gameDetails) {
     var gameBoxEl = document.createElement("div");
-    gameBoxEl.setAttribute("id", "open-button");
+    gameBoxEl.setAttribute("id", "game-card");
 
     var preFormatedGameTitle = gameDetails.name;
     var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
@@ -235,8 +235,8 @@ searchEl.addEventListener("submit", searchSubmit);
 
 topTenBoxEl.addEventListener("click", function (e) {
 
-    if (e.target.closest("#open-button")) {
-        var gameTitleFormat = e.target.closest("#open-button").getAttribute("data-id");
+    if (e.target.closest("#game-card")) {
+        var gameTitleFormat = e.target.closest("#game-card").getAttribute("data-id");
         createModal(gameTitleFormat);
     }
 

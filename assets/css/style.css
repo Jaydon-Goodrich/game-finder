@@ -1,5 +1,107 @@
- .modal {
-  display: none;
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding:0;
+}
+
+body {
+    background: #3B3B3B;
+    background-image: url("../images/background-tile.png");
+    background-repeat:repeat;
+    margin: 0px;
+}
+
+#content-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  justify-content: space-between;
+}
+
+header {
+    background: #0D1E39;
+    padding: 5px;
+    margin: -10px;
+}
+
+.home-menu {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+h1 {
+    color: #ffffff;
+    padding: 0 auto 0 auto;
+    font-size: 50px;
+}
+
+button {
+    background: #0078e7;
+    border-radius: 5px;
+}
+.user-form {
+  display: flex;
+  align-items: center;
+}
+
+#userSearch {
+  width: fit-content;
+}
+
+#gameSearch, #submit-btn{
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#submit-btn {
+  color: #fff;
+}
+
+#top-ten {
+  padding-bottom: auto;
+  padding-top: 20px;
+}
+
+.tiles {
+    background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
+    border-radius: 5%;
+    border-radius: 15px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-top: 5px;
+    margin: 15px;
+    block-size: 200px;
+}
+
+p {
+    color: #AEA43F;
+}
+
+h2 {
+    color: #AEA43F;
+    min-width: 100%;
+    min-height: 25%;
+}
+
+.myfooter {
+    background: #0D1E39;
+    padding: 50px;
+    border-right: 30px solid #0D1E39;
+    border-left: 30px solid #0D1E39;
+}
+
+.modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+  
+  /* Probably need media queries here */
   width: 600px;
   max-width: 100%;
   height: 400px;
@@ -8,17 +110,22 @@
   z-index: 100;
   left: 50%;
   top: 50%;
+  
+  /* Use this for centering if unknown width/height */
   transform: translate(-50%, -50%);
+  
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+  
   background: white;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
 
 .closed {
-  display: block;
+  display: none;
 }
 
 .modal-overlay {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -38,12 +145,17 @@
   overflow: auto;
   padding: 20px 50px 20px 20px;
   background: #3B3B3B;
+  background-image: url("../images/background-tile.png");
 }
 
 .modal .close-button {
   position: absolute;
+  
+  /* don't need to go crazy with z-index here, just sits over .modal-guts */
   z-index: 1;
   top: 10px;
+  
+  /* needs to look OK with or without scrollbar */
   right: 20px;
   border: 0;
   background: #0D1E39;;
@@ -51,12 +163,13 @@
   padding: 5px 10px;
   font-size: 1.3rem;
 }
+
 .modal-title{
   color: #0D1E39;
   float: none;
   padding: 10px;
   font-weight: bolder;
-  font-family: "Verdana", sans-serif;
+  text-align: center;
 }
 
 #modal-review-title{
@@ -80,93 +193,19 @@
 #modal-body{
   color: #0D1E39;
   font-weight: bolder;
+}
+
+a{
+  text-decoration: none;
   font-family: "Verdana", sans-serif;
 }
 
-.open-button {
-  border: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: lightgreen;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 21px;
+#game-card {
+  border: 4px outset #AEA43F;
 }
 
-a {
-  color: #993333;
+@media only screen and (max-width: 520px) {
+  .home-menu {
+    justify-content: center;
+  }
 }
-
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-
-body {
-    background: #3B3B3B;
-    margin: 0px;
-
-}
-
-header {
-    background: #0D1E39;
-    padding: 5px;
-    margin: 0px;
-}
-
-h1 {
-    color: #ffffff;
-    float: right;
-    margin-top: 0em;
-}
-
-.toph2 {
-    color: #ffffff;
-    text-align: left;
-    display: block;
-}
-
-button {
-    background: #0078e7;
-    border-radius: 5px;
-}
-
-#gameSearch {
-    border-radius: 5px;
-}
-
-#top-ten {
-    padding-bottom: 380px;
-}
-
-.tiles {
-    background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
-    border-radius: 15px;
-    padding-bottom: 5px;
-    padding-left: 20px;
-    padding-top: 5px;
-    margin: 15px;
-    block-size: 200px;
-}
-
-p {
-    color: #AEA43F;
-    font-family: "Verdana", sans-serif;
-}
-
-h2 {
-    color: #AEA43F;
-    min-width: 100%;
-    min-height: 25%;
-}
-
-.myfooter {
-    background: #0D1E39;
-    padding: 50px;
-}
-
