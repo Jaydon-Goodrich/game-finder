@@ -5,8 +5,6 @@ var searchText = document.querySelector("#gameSearch");
 var searchResultEl = document.querySelector("#search-result");
 var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
 
-console.log(pastSearches);
-
 var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
 var closeButton = document.querySelector("#close-button");
@@ -171,9 +169,7 @@ searchEl.addEventListener("submit", searchSubmit);
 topTenBoxEl.addEventListener("click", function (e) {
 
     if (e.target.closest("#open-button")) {
-        console.log(e.target);
         var gameTitleFormat = e.target.closest("#open-button").getAttribute("data-id");
-        console.log(gameTitleFormat);
         createModal(gameTitleFormat);
     }
 
