@@ -200,7 +200,7 @@ var createModal = function (gameId) {
                 var fullReview = document.createElement("a");
                 fullReview.textContent = "...See Full Article HERE";
                 fullReview.setAttribute("href", data.results[0].site_detail_url);
-
+                //
                 //Game Details
                 var gameTitle = data.results[0].game["name"];
                 var author = data.results[0].authors;
