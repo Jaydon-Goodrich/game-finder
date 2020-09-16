@@ -29,7 +29,7 @@ var reviewAuthor = document.querySelector("#review-author");
 var modalImage = document.querySelector("#modal-image");
 var MainCard = document.querySelector("#main-card");
 
-
+var gamesArr = ["minecraft", "fortnite"];
 
 var getTopTen = function () {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
@@ -68,13 +68,18 @@ var createMainCard = function (gameDetails) {
     gameTitleEl.textContent = gameDetails.name;
     gameBoxEl.appendChild(gameTitleEl);
 
+    var gameImage = document.createElement("img");
+    gameImage.setAttribute("id", "main-card-image");
+    gameImage.setAttribute("src", gameDetails.background_image);
+    gameBoxEl.appendChild(gameImage);
+
     var gameScoreEl = document.createElement("p");
     gameScoreEl.textContent = `Metacritic score: ${gameDetails.metacritic}`;
     gameBoxEl.appendChild(gameScoreEl);
 
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-    
+
     if (!gameRating) {
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
@@ -182,7 +187,7 @@ var createModal = function (gameId) {
         .then(response => {
             response.json().then(function (data) {
                 //Create a brief review
-                if(data.number_of_total_results === 0){
+                if (data.number_of_total_results === 0) {
                     var gameIdTitle = gameId.toUpperCase().split("%").join(" ");
                     modalTitle.textContent = gameIdTitle;
                     modalReviewTitle.textContent = "";
@@ -191,31 +196,31 @@ var createModal = function (gameId) {
                     modalBody.innerHTML = "There are no reviews for this game title";
                     openModal();
                 }
-                else{
-                
-                var longString = data.results[0].body;
-                var shortString = longString.substr(0, 350);
-                var ReviewTitle = data.results[0].title;
-                var bodyReview = shortString;
-                var fullReview = document.createElement("a");
-                fullReview.textContent = "...See Full Article HERE";
-                fullReview.setAttribute("href", data.results[0].site_detail_url);
+                else {
 
-                //Game Details
-                var gameTitle = data.results[0].game["name"];
-                var author = data.results[0].authors;
+                    var longString = data.results[0].body;
+                    var shortString = longString.substr(0, 350);
+                    var ReviewTitle = data.results[0].title;
+                    var bodyReview = shortString;
+                    var fullReview = document.createElement("a");
+                    fullReview.textContent = "...See Full Article HERE";
+                    fullReview.setAttribute("href", data.results[0].site_detail_url);
 
-                //Set the Image URL
-                var imgUrl = data.results[0].image["screen_tiny"];
-                modalImage.setAttribute("src", imgUrl);
-                
-                //Add the details to the modal
-                modalBody.innerHTML = bodyReview;
-                modalTitle.textContent = gameTitle;
-                modalReviewTitle.textContent = ReviewTitle;
-                reviewAuthor.textContent = "By: " + author;
-                modalBody.appendChild(fullReview);
-                openModal();
+                    //Game Details
+                    var gameTitle = data.results[0].game["name"];
+                    var author = data.results[0].authors;
+
+                    //Set the Image URL
+                    var imgUrl = data.results[0].image["screen_tiny"];
+                    modalImage.setAttribute("src", imgUrl);
+
+                    //Add the details to the modal
+                    modalBody.innerHTML = bodyReview;
+                    modalTitle.textContent = gameTitle;
+                    modalReviewTitle.textContent = ReviewTitle;
+                    reviewAuthor.textContent = "By: " + author;
+                    modalBody.appendChild(fullReview);
+                    openModal();
                 }
             })
         })
@@ -224,13 +229,13 @@ var createModal = function (gameId) {
         });
 }
 
-var openModal = function(){
+var openModal = function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
 }
 
-
-
+     
+ 
 searchEl.addEventListener("submit", searchSubmit);
 
 topTenBoxEl.addEventListener("click", function (e) {

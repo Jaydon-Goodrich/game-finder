@@ -128,7 +128,7 @@ button {
     padding-left: 20px;
     padding-top: 5px;
     margin: 15px;
-    block-size: 200px;
+    block-size: 300px;
 }
 
 p {
@@ -146,4 +146,8 @@ h2 {
     padding: 50px;
     margin: -10px
 }
+#main-card-image{
+  width: 50%;
+}
+
 
