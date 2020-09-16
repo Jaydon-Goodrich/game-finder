@@ -105,14 +105,10 @@ h2 {
   display: none;
   width: 600px;
   max-width: 100%;
-  
   height: 400px;
   max-height: 100%;
-  
   position: fixed;
-  
   z-index: 100;
-  
   left: 50%;
   top: 50%;
   
@@ -124,6 +120,7 @@ h2 {
   background: white;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
+
 .closed {
   display: block;
 }
@@ -139,6 +136,7 @@ h2 {
   
   background: rgba(0, 0, 0, 0.6);
 }
+
 .modal-guts {
   position: absolute;
   top: 0;
@@ -147,23 +145,60 @@ h2 {
   height: 100%;
   overflow: auto;
   padding: 20px 50px 20px 20px;
+  background: #3B3B3B;
+  background-image: url("../images/background-tile.png");
 }
+
 .modal .close-button {
   position: absolute;
   
   /* don't need to go crazy with z-index here, just sits over .modal-guts */
   z-index: 1;
-  
   top: 10px;
   
   /* needs to look OK with or without scrollbar */
   right: 20px;
-  
   border: 0;
-  background: black;
+  background: #0D1E39;;
   color: white;
   padding: 5px 10px;
   font-size: 1.3rem;
+}
+
+.modal-title{
+  color: #0D1E39;
+  float: none;
+  padding: 10px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+#modal-review-title{
+  color: #0D1E39;
+  font-weight: bolder;
+  font-family: "Verdana", sans-serif;
+}
+
+#review-author{
+  color: #0D1E39;
+  font-weight: bolder;
+  font-family: "Verdana", sans-serif;
+}
+
+#modal-body p{
+  color: #0D1E39;
+  font-weight: bolder;
+  font-family: "Verdana", sans-serif;
+}
+
+#modal-body{
+  color: #0D1E39;
+  font-weight: bolder;
+}
+
+a{
+  text-decoration: none;
+  font-family: "Verdana", sans-serif;
 }
 
 #game-card {
