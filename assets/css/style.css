@@ -1,123 +1,72 @@
- .modal {
-  display: none;
-  
-  width: 600px;
-  max-width: 100%;
-  
-  height: 400px;
-  max-height: 100%;
-  
-  position: fixed;
-  
-  z-index: 100;
-  
-  left: 50%;
-  top: 50%;
-  
-  transform: translate(-50%, -50%);
-  
- 
-  
-  background: white;
-  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
-}
-.closed {
-  display: block;
-}
-
-.modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 50;
-  
-  background: rgba(0, 0, 0, 0.6);
-}
-.modal-guts {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  padding: 20px 50px 20px 20px;
-}
-.modal .close-button {
-  position: absolute;
-  
-  z-index: 1;
-  
-  top: 10px;
-  
-  
-  right: 20px;
-  
-  border: 0;
-  background: black;
-  color: white;
-  padding: 5px 10px;
-  font-size: 1.3rem;
-}
-.modal-title{
-  color: black;
-  float: none;
-  padding: 10px;
-}
-
-.open-button {
-  border: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: lightgreen;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 21px;
-}
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    padding:0;
 }
 
 body {
     background: #3B3B3B;
+    background-image: url("../images/background-tile.png");
+    background-repeat:repeat;
+    margin: 0px;
+}
+
+#content-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  justify-content: space-between;
 }
 
 header {
     background: #0D1E39;
     padding: 5px;
-    margin: -10px
+    margin: -10px;
+}
+
+.home-menu {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 h1 {
     color: #ffffff;
-    float: right;
-    margin-top: 0em;
-}
-
-.toph2 {
-    color: #ffffff;
-    text-align: left;
-    display: block;
+    padding: 0 auto 0 auto;
+    font-size: 50px;
 }
 
 button {
     background: #0078e7;
     border-radius: 5px;
 }
+.user-form {
+  display: flex;
+  align-items: center;
+}
 
-#gameSearch {
+#userSearch {
+  width: fit-content;
+}
+
+#gameSearch, #submit-btn{
     border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#submit-btn {
+  color: #fff;
 }
 
 #top-ten {
-    padding-bottom: 430px;;
+  padding-bottom: auto;
+  padding-top: 20px;
 }
 
 .tiles {
@@ -144,6 +93,84 @@ h2 {
 .myfooter {
     background: #0D1E39;
     padding: 50px;
-    margin: -10px
+    border-right: 30px solid #0D1E39;
+    border-left: 30px solid #0D1E39;
 }
 
+.modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+  
+  /* Probably need media queries here */
+  width: 600px;
+  max-width: 100%;
+  
+  height: 400px;
+  max-height: 100%;
+  
+  position: fixed;
+  
+  z-index: 100;
+  
+  left: 50%;
+  top: 50%;
+  
+  /* Use this for centering if unknown width/height */
+  transform: translate(-50%, -50%);
+  
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+  
+  background: white;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+}
+.closed {
+  display: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  
+  background: rgba(0, 0, 0, 0.6);
+}
+.modal-guts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px 50px 20px 20px;
+}
+.modal .close-button {
+  position: absolute;
+  
+  /* don't need to go crazy with z-index here, just sits over .modal-guts */
+  z-index: 1;
+  
+  top: 10px;
+  
+  /* needs to look OK with or without scrollbar */
+  right: 20px;
+  
+  border: 0;
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1.3rem;
+}
+
+#game-card {
+  border: 4px outset #AEA43F;
+}
+
+@media only screen and (max-width: 520px) {
+  .home-menu {
+    justify-content: center;
+  }
+}
