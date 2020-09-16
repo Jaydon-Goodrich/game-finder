@@ -77,7 +77,7 @@ button {
     padding-left: 20px;
     padding-top: 5px;
     margin: 15px;
-    block-size: 200px;
+    block-size: 300px;
 }
 
 p {
@@ -96,12 +96,13 @@ h2 {
     border-right: 30px solid #0D1E39;
     border-left: 30px solid #0D1E39;
 }
-
-.modal {
-  /* This way it could be display flex or grid or whatever also. */
-  display: block;
+.modal-title{
+  color: black;
+  float: none;
   
-  /* Probably need media queries here */
+}
+.modal {
+  display: none;
   width: 600px;
   max-width: 100%;
   
@@ -115,20 +116,20 @@ h2 {
   left: 50%;
   top: 50%;
   
-  /* Use this for centering if unknown width/height */
+  
   transform: translate(-50%, -50%);
   
-  /* If known, negative margins are probably better (less chance of blurry text). */
-  /* margin: -200px 0 0 -200px; */
+  
   
   background: white;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
 .closed {
-  display: none;
+  display: block;
 }
 
 .modal-overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -168,6 +169,10 @@ h2 {
 #game-card {
   border: 4px outset #AEA43F;
 }
+#main-card-image{
+  width: 50%;
+}
+
 
 @media only screen and (max-width: 520px) {
   .home-menu {

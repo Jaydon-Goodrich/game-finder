@@ -17,27 +17,11 @@ var modalImage = document.querySelector("#modal-image");
 var MainCard = document.querySelector("#main-card");
 
 
-
-var modal = document.querySelector("#modal");
-var modalOverlay = document.querySelector("#modal-overlay");
-var closeButton = document.querySelector("#close-button");
-var openButton = document.querySelector("#game-card");
-var modalReviewTitle = document.querySelector("#modal-review-title");
-var modalBody = document.querySelector("#modal-body");
-var modalTitle = document.querySelector("#modal-title");
-var reviewAuthor = document.querySelector("#review-author");
-var modalImage = document.querySelector("#modal-image");
-var MainCard = document.querySelector("#main-card");
-
-
+var gamesArr = [];
 
 var getTopTen = function () {
-    fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
+    fetch("https://api.rawg.io/api/games", {
         "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-            "x-rapidapi-key": "b26c93ba6cmshec93fde4486eaf6p1c7506jsn8451a97d31ae"
-        }
     })
         .then(response => {
             response.json().then(data => {
@@ -68,13 +52,18 @@ var createMainCard = function (gameDetails) {
     gameTitleEl.textContent = gameDetails.name;
     gameBoxEl.appendChild(gameTitleEl);
 
+    var gameImage = document.createElement("img");
+    gameImage.setAttribute("id", "main-card-image");
+    gameImage.setAttribute("src", gameDetails.background_image);
+    gameBoxEl.appendChild(gameImage);
+
     var gameScoreEl = document.createElement("p");
     gameScoreEl.textContent = `Metacritic score: ${gameDetails.metacritic}`;
     gameBoxEl.appendChild(gameScoreEl);
 
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-    
+
     if (!gameRating) {
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
@@ -89,12 +78,8 @@ var createMainCard = function (gameDetails) {
 }
 
 var getGameDetails = async function (gameName) {
-    await fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${gameName}`, {
+    await fetch(`https://api.rawg.io/api/games/${gameName}`, {
         "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-            "x-rapidapi-key": "b26c93ba6cmshec93fde4486eaf6p1c7506jsn8451a97d31ae"
-        }
     })
         .then(async (response) => {
             response.json().then(function (data) {
@@ -182,7 +167,7 @@ var createModal = function (gameId) {
         .then(response => {
             response.json().then(function (data) {
                 //Create a brief review
-                if(data.number_of_total_results === 0){
+                if (data.number_of_total_results === 0) {
                     var gameIdTitle = gameId.toUpperCase().split("%").join(" ");
                     modalTitle.textContent = gameIdTitle;
                     modalReviewTitle.textContent = "";
@@ -224,13 +209,12 @@ var createModal = function (gameId) {
         });
 }
 
-var openModal = function(){
+var openModal = function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
 }
 
-
-
+ 
 searchEl.addEventListener("submit", searchSubmit);
 
 topTenBoxEl.addEventListener("click", function (e) {
@@ -247,4 +231,34 @@ getTopTen();
 closeButton.addEventListener("click", function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
+});
+
+
+var searchAuto = function(keyString){
+    fetch(`https://api.rawg.io/api/games?search=${keyString}`, {
+        "method": "GET",
+    })
+        .then(response => {
+            response.json().then(data => {
+                gamesArr = [];
+                for(var i = 0; i < data.results.length; i++){
+                    gamesArr.push(data.results[i].slug);
+                }
+                $(function(){
+                    $("#gameSearch").autocomplete({
+                        source: gamesArr
+                    });
+                });
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+searchText.addEventListener("keyup", function(e){
+    var keyString = e.target.value;
+    if(keyString.length >= 2){
+        searchAuto(keyString);
+    }
 });
