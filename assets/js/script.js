@@ -2,6 +2,7 @@ var topTenBoxEl = document.querySelector("#top-ten");
 var reviewEl = document.querySelector("#review");
 var searchEl = document.querySelector("#userSearch");
 var searchText = document.querySelector("#gameSearch");
+var searchListEl = document.querySelector("#predictive-list");
 var searchResultEl = document.querySelector("#search-result");
 var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
 
@@ -98,11 +99,15 @@ var searchSubmit = function (event) {
     gameTitle.name = searchText.value.trim();
     if (gameTitle) {
         gameTitle.slug = gameTitle.name.toLowerCase().split(" ").join("-");
+        gameTitle.slug = gameTitle.slug.split(":").join("");
 
         getGameDetails(gameTitle.slug);
-        pastSearches.push(gameTitle);
-        localStorage.setItem("searches", JSON.stringify(pastSearches));
-        console.log(pastSearches);
+
+        console.log(pastSearches.includes(gameTitle));
+        if (!pastSearches.includes(gameTitle)) {
+            pastSearches.push(gameTitle);
+            localStorage.setItem("searches", JSON.stringify(pastSearches));
+        }
     }
     searchText.value = "";
 }
@@ -161,7 +166,7 @@ var openModal = function () {
     modalOverlay.classList.toggle("closed");
 }
 
- 
+
 searchEl.addEventListener("submit", searchSubmit);
 
 topTenBoxEl.addEventListener("click", function (e) {
@@ -181,21 +186,23 @@ closeButton.addEventListener("click", function () {
 });
 
 
-var searchAuto = function(keyString){
+var searchAuto = function (keyString) {
     fetch(`https://api.rawg.io/api/games?search=${keyString}`, {
         "method": "GET",
     })
         .then(response => {
-            response.json().then(data => {
+            response.json().then(function (data) {
                 gamesArr = [];
-                for(var i = 0; i < data.results.length; i++){
-                    gamesArr.push(data.results[i].slug);
+                if(pastSearches) {
+                    for (var i = 0; i < pastSearches.length; i++) {
+                        gamesArr.push(pastSearches[i].name);
+                    }
                 }
-                $(function(){
-                    $("#gameSearch").autocomplete({
-                        source: gamesArr
-                    });
-                });
+                for (var i = 0; i < data.results.length; i++) {
+                    gamesArr.push(data.results[i].name);
+                }
+            
+                filler(gamesArr);
             })
         })
         .catch(err => {
@@ -203,9 +210,27 @@ var searchAuto = function(keyString){
         });
 }
 
-searchText.addEventListener("keyup", function(e){
+var filler = function (gamesArr) {
+    searchListEl.innerHTML = '';
+    for (var i = 0; i < gamesArr.length && i < 11; i++) {
+        var listItemEl = document.createElement("option");
+        listItemEl.textContent = gamesArr[i];
+        listItemEl.setAttribute("value", gamesArr[i]);
+
+        if (pastSearches && i < pastSearches.length) {
+            listItemEl.setAttribute("id", "historic");
+        }
+
+        console.log(listItemEl);
+
+        searchListEl.appendChild(listItemEl);
+
+    }
+}
+
+searchText.addEventListener("keyup", function (e) {
     var keyString = e.target.value;
-    if(keyString.length >= 2){
+    if (keyString.length >= 2) {
         searchAuto(keyString);
     }
 });
