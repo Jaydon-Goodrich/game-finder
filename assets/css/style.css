@@ -60,6 +60,10 @@ button {
     font-size: 16px;
 }
 
+#gameSearch {
+  width:220px;
+}
+
 #submit-btn {
   color: #fff;
 }
