@@ -62,7 +62,7 @@ var createMainCard = function (gameDetails) {
     var preFormatedGameTitle = gameDetails.name;
     var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
     gameBoxEl.setAttribute("data-id", formatedGameTitle);
-    gameBoxEl.setAttribute("class", "pure-u-1 pure-u-sm-1-3 pure-u-md-1-2 pure-u-lg-1-8 tiles");
+    gameBoxEl.setAttribute("class", "pure-u-1 pure-u-sm-1-2 pure-u-md-1-4 pure-u-lg-1-6 tiles");
 
     var gameTitleEl = document.createElement("h2");
     gameTitleEl.textContent = gameDetails.name;
