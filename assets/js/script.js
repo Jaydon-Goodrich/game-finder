@@ -161,59 +161,6 @@ var openModal = function () {
     modalOverlay.classList.toggle("closed");
 }
 
-var createModal = function (gameId) {
-    fetch(`https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=1&filter=title:${gameId}`
-    )
-        .then(response => {
-            response.json().then(function (data) {
-                //Create a brief review
-                if (data.number_of_total_results === 0) {
-                    var gameIdTitle = gameId.toUpperCase().split("%").join(" ");
-                    modalTitle.textContent = gameIdTitle;
-                    modalReviewTitle.textContent = "";
-                    reviewAuthor.textContent = "";
-                    modalImage.setAttribute("src", "");
-                    modalBody.innerHTML = "There are no reviews for this game title";
-                    openModal();
-                }
-                else{
-                
-                var longString = data.results[0].body;
-                var shortString = longString.substr(0, 350);
-                var ReviewTitle = data.results[0].title;
-                var bodyReview = shortString;
-                var fullReview = document.createElement("a");
-                fullReview.textContent = "...See Full Article HERE";
-                fullReview.setAttribute("href", data.results[0].site_detail_url);
-                
-                //Game Details
-                var gameTitle = data.results[0].game["name"];
-                var author = data.results[0].authors;
-
-                //Set the Image URL
-                var imgUrl = data.results[0].image["screen_tiny"];
-                modalImage.setAttribute("src", imgUrl);
-                
-                //Add the details to the modal
-                modalBody.innerHTML = bodyReview;
-                modalTitle.textContent = gameTitle;
-                modalReviewTitle.textContent = ReviewTitle;
-                reviewAuthor.textContent = "By: " + author;
-                modalBody.appendChild(fullReview);
-                openModal();
-                }
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
-
-var openModal = function () {
-    modal.classList.toggle("closed");
-    modalOverlay.classList.toggle("closed");
-}
-
  
 searchEl.addEventListener("submit", searchSubmit);
 
