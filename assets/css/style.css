@@ -71,7 +71,6 @@ button {
 
 .tiles {
     background-image: linear-gradient(90deg, rgba(86,16,12,1) 35%, rgba(131,38,33,1) 100%);
-    border-radius: 5%;
     border-radius: 15px;
     padding-bottom: 5px;
     padding-left: 20px;
@@ -85,16 +84,7 @@ p {
 }
 
 h2 {
-    color: #AEA43F;
-    min-width: 100%;
-    min-height: 25%;
-}
-
-.myfooter {
-    background: #0D1E39;
-    padding: 50px;
-    border-right: 30px solid #0D1E39;
-    border-left: 30px solid #0D1E39;
+    color: #AEA43F;   
 }
 .modal-title{
   color: black;
@@ -214,3 +204,7 @@ a{
     justify-content: center;
   }
 }
+
+
+
+
