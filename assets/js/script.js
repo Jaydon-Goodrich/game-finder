@@ -103,7 +103,6 @@ var searchSubmit = function (event) {
 
         getGameDetails(gameTitle.slug);
 
-        console.log(pastSearches.includes(gameTitle));
         if (!pastSearches.includes(gameTitle)) {
             pastSearches.push(gameTitle);
             localStorage.setItem("searches", JSON.stringify(pastSearches));
@@ -220,8 +219,6 @@ var filler = function (gamesArr) {
         if (pastSearches && i < pastSearches.length) {
             listItemEl.setAttribute("id", "historic");
         }
-
-        console.log(listItemEl);
 
         searchListEl.appendChild(listItemEl);
 
