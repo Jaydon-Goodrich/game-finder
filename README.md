@@ -25,7 +25,7 @@ Josh Miller
 
 ## Where to find the game
 
-[Click Here](sithSlave.github.io/game-finder)
+[Click Here](https://sithslave.github.io/game-finder/)
 
 ## Screenshots
 
