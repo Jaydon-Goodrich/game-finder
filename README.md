@@ -12,8 +12,6 @@
   
     * A thumbnail of the cover
     * The Title
-    * The publisher Company
-    * The developer Company
     * The Where the game is available, and how much it costs currently at those locations.
     
 ## Contributors
@@ -23,6 +21,18 @@ James Dean
 Nickolas Foster
 Josh Miller
 
+## Languages
+
+HTML
+CCS
+JS
+
+  ### Frameworks/Libraries
+    PureCSS
+  ### 3rd party API's
+    RawG
+    GameSpot
+    
 ## Where to find the game
 
 [Click Here](https://sithslave.github.io/game-finder/)
