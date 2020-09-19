@@ -38,26 +38,24 @@ var getTopTen = function () {
 //Function that displays the top 10
 var displayTopTen = function (gameDataArr) {
 
-    var gameTitles = [];
-
     if (pastSearches) {
         for (var i = 0; i < pastSearches.length; i++) {
-            gameTitles.push(pastSearches[i].slug);
+            getGameDetails(pastSearches[i].slug, true);
         }
     }
     for (var i = 9; i >= 0; i--) {
-        gameTitles.push(gameDataArr[i].slug);
-    }
-
-    for (var i = 0; i < gameTitles.length; i++) {
-        getGameDetails(gameTitles[i]);
+        getGameDetails(gameDataArr[i].slug, false);
     }
 }
 //Function for displaying the game info in a card
-var createMainCard = function (gameDetails) {
+var createMainCard = function (gameDetails, isHistoric) {
+
     //create the main box element
     var gameBoxEl = document.createElement("div");
     gameBoxEl.setAttribute("id", "game-card");
+    if (isHistoric) {
+        gameBoxEl.setAttribute("data-is-historic", "historic");
+    }
     //create the game title and format it to use in search
     var preFormatedGameTitle = gameDetails.name;
     var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
@@ -86,30 +84,33 @@ var createMainCard = function (gameDetails) {
     else {
         gameEsrbEl.textContent = `ESRB rating: ${gameRating.name}`;
     }
-
     gameBoxEl.appendChild(gameEsrbEl);
-
 
     topTenBoxEl.prepend(gameBoxEl);
 }
 // Fetch to gather the info to display about the game
-var getGameDetails = async function (gameName) {
-    await fetch(`https://api.rawg.io/api/games/${gameName}`, {
-        "method": "GET",
-    })
-        .then(async (response) => {
-            response.json().then(function (data) {
-                createMainCard(data);
-            });
+var getGameDetails = async function (gameName, isHistoric) {
+    if (gameName) {
+        await fetch(`https://api.rawg.io/api/games/${gameName}`, {
+            "method": "GET",
         })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(async (response) => {
+                response.json().then(function (data) {
+                    createMainCard(data, isHistoric);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        searchText.setAttribute("placeholder", "This was empty, Try again");
+    }
 }
 
 // function for getting the data in the search form
 var searchSubmit = function (event) {
     event.preventDefault();
+    searchText.setAttribute("placeholder", "Search for a Video Game");
     var gameTitle = {}
     gameTitle.name = searchText.value.trim();
     if (gameTitle) {
