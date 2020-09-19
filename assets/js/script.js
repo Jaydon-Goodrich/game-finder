@@ -1,11 +1,13 @@
+// elements to create the main cards
 var topTenBoxEl = document.querySelector("#top-ten");
 var reviewEl = document.querySelector("#review");
 var searchEl = document.querySelector("#userSearch");
+// elements for the search area
 var searchText = document.querySelector("#gameSearch");
 var searchListEl = document.querySelector("#predictive-list");
 var searchResultEl = document.querySelector("#search-result");
 var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
-
+// elements for the modal
 var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
 var closeButton = document.querySelector("#close-button");
@@ -17,9 +19,9 @@ var reviewAuthor = document.querySelector("#review-author");
 var modalImage = document.querySelector("#modal-image");
 var MainCard = document.querySelector("#main-card");
 
-
+//An array to store the search content
 var gamesArr = [];
-
+//Function for pulling the top 10 games
 var getTopTen = function () {
     fetch("https://api.rawg.io/api/games", {
         "method": "GET",
@@ -33,38 +35,39 @@ var getTopTen = function () {
             console.log(err);
         });
 }
-
+//Function that displays the top 10
 var displayTopTen = function (gameDataArr) {
     for (var i = 9; i >= 0; i--) {
         getGameDetails(gameDataArr[i].slug);
     }
 }
-
+//Function for displaying the game info in a card
 var createMainCard = function (gameDetails) {
+    //create the main box element
     var gameBoxEl = document.createElement("div");
     gameBoxEl.setAttribute("id", "game-card");
-
+    //create the game title and format it to use in search
     var preFormatedGameTitle = gameDetails.name;
     var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
     gameBoxEl.setAttribute("data-id", formatedGameTitle);
     gameBoxEl.setAttribute("class", "pure-u-1 pure-u-sm-1-2 pure-u-md-1-4 pure-u-lg-1-6 tiles");
-
+    //create a the game title
     var gameTitleEl = document.createElement("h2");
     gameTitleEl.textContent = gameDetails.name;
     gameBoxEl.appendChild(gameTitleEl);
-
+    //creates the game image and adds to main box
     var gameImage = document.createElement("img");
     gameImage.setAttribute("id", "main-card-image");
     gameImage.setAttribute("src", gameDetails.background_image);
     gameBoxEl.appendChild(gameImage);
-
+    //creates the place to display score
     var gameScoreEl = document.createElement("p");
     gameScoreEl.textContent = `Metacritic score: ${gameDetails.metacritic}`;
     gameBoxEl.appendChild(gameScoreEl);
-
+    //creates the place to display score
     var gameEsrbEl = document.createElement("p");
     var gameRating = gameDetails.esrb_rating;
-
+    //Checks for null rating
     if (!gameRating) {
         gameEsrbEl.textContent = `ESRB rating: NR`;
     }
@@ -77,7 +80,7 @@ var createMainCard = function (gameDetails) {
 
     topTenBoxEl.prepend(gameBoxEl);
 }
-
+// Fetch to gather the info to display about the game
 var getGameDetails = async function (gameName) {
     await fetch(`https://api.rawg.io/api/games/${gameName}`, {
         "method": "GET",
@@ -92,7 +95,7 @@ var getGameDetails = async function (gameName) {
         });
 }
 
-
+// function for getting the data in the search form
 var searchSubmit = function (event) {
     event.preventDefault();
     var gameTitle = {}
@@ -110,13 +113,14 @@ var searchSubmit = function (event) {
     }
     searchText.value = "";
 }
-
+//fetch for review data and builds the modal that can be displayed
 var createModal = function (gameId) {
     fetch(`https://cors-anywhere.herokuapp.com/https://www.gamespot.com/api/reviews/?api_key=348220cf9009bada78dfe5eae2cfb56639f4b00b&format=json&limit=1&filter=title:${gameId}`
     )
         .then(response => {
             response.json().then(function (data) {
                 //Create a brief review
+                //Adds a message if no review is found
                 if (data.number_of_total_results === 0) {
                     var gameIdTitle = gameId.toUpperCase().split("%").join(" ");
                     modalTitle.textContent = gameIdTitle;
@@ -127,7 +131,7 @@ var createModal = function (gameId) {
                     openModal();
                 }
                 else {
-
+                    // string manipulation to display the length of the review
                     var longString = data.results[0].body;
                     var shortString = longString.substr(0, 350);
                     var ReviewTitle = data.results[0].title;
@@ -152,24 +156,33 @@ var createModal = function (gameId) {
                     reviewAuthor.textContent = "By: " + author;
                     modalBody.appendChild(fullReview);
                     var dashedGame = gameId.split("%").join("-");
+                    dashedGame = dashedGame.split(":").join("");
                     fetch(`https://api.rawg.io/api/games/${dashedGame}`, {
                         "method": "GET",
                     })
+                        //A fetch to a seperate API to gather game data
                         .then(async (response) => {
                             response.json().then(function (data) {
                                 var storeData = data.stores;
                                 var buyGames = document.createElement("h2");
                                 buyGames.textContent = "Purchase the game here: ";
                                 modalBody.appendChild(buyGames);
-
-                                for(var i = 0; i < storeData.length; i++){
-                                    var storeInfo = document.createElement("a");
-                                    storeInfo.textContent = storeData[i].store.name;
-                                    storeInfo.setAttribute("href", storeData[i].url);
-                                    storeInfo.setAttribute("target", "_blank");
-                                    var br = document.createElement("br");
-                                    modalBody.appendChild(storeInfo);
-                                    modalBody.appendChild(br);
+                                if (storeData) {
+                                    for (var i = 0; i < storeData.length; i++) {
+                                        //Creates a link for each store
+                                        var storeInfo = document.createElement("a");
+                                        storeInfo.textContent = storeData[i].store.name;
+                                        storeInfo.setAttribute("href", storeData[i].url);
+                                        storeInfo.setAttribute("target", "_blank");
+                                        var br = document.createElement("br");
+                                        modalBody.appendChild(storeInfo);
+                                        modalBody.appendChild(br);
+                                    }
+                                }
+                                else {
+                                    var stores = document.createElement("h2");
+                                    stores.textContent = "No store data is found";
+                                    modalBody.appendChild(stores);
                                 }
                             });
                         })
@@ -184,13 +197,13 @@ var createModal = function (gameId) {
             console.log(err);
         });
 }
-
+//function to open and display the modal
 var openModal = function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
 }
 
-
+//Event listners for search submit
 searchEl.addEventListener("submit", searchSubmit);
 
 topTenBoxEl.addEventListener("click", function (e) {
@@ -201,15 +214,16 @@ topTenBoxEl.addEventListener("click", function (e) {
     }
 
 });
-
+// Get the top 10 games and display
 getTopTen();
 
+//event listner for the close button in the modal
 closeButton.addEventListener("click", function () {
     modal.classList.toggle("closed");
     modalOverlay.classList.toggle("closed");
 });
 
-
+//API call based on the searched string
 var searchAuto = function (keyString) {
     fetch(`https://api.rawg.io/api/games?search=${keyString}`, {
         "method": "GET",
@@ -234,6 +248,7 @@ var searchAuto = function (keyString) {
         });
 }
 
+//Adds info for the autocomplete function
 var filler = function (gamesArr) {
     searchListEl.innerHTML = '';
     for (var i = 0; i < gamesArr.length && i < 11; i++) {
@@ -249,7 +264,7 @@ var filler = function (gamesArr) {
 
     }
 }
-
+// event listner for the keyup in the search area
 searchText.addEventListener("keyup", function (e) {
     var keyString = e.target.value;
     if (keyString.length >= 2) {

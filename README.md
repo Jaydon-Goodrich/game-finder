@@ -29,3 +29,4 @@ Josh Miller
 
 ## Screenshots
 
+![](assets/images/gamefinderSS.png)
