@@ -7,6 +7,7 @@ var searchText = document.querySelector("#gameSearch");
 var searchListEl = document.querySelector("#predictive-list");
 var searchResultEl = document.querySelector("#search-result");
 var pastSearches = JSON.parse(localStorage.getItem("searches")) || [];
+var deleteBtnEl = document.querySelector("#delete-btn");
 // elements for the modal
 var modal = document.querySelector("#modal");
 var modalOverlay = document.querySelector("#modal-overlay");
@@ -37,15 +38,25 @@ var getTopTen = function () {
 }
 //Function that displays the top 10
 var displayTopTen = function (gameDataArr) {
+
+    if (pastSearches) {
+        for (var i = 0; i < pastSearches.length; i++) {
+            getGameDetails(pastSearches[i].slug, true);
+        }
+    }
     for (var i = 9; i >= 0; i--) {
-        getGameDetails(gameDataArr[i].slug);
+        getGameDetails(gameDataArr[i].slug, false);
     }
 }
 //Function for displaying the game info in a card
-var createMainCard = function (gameDetails) {
+var createMainCard = function (gameDetails, isHistoric) {
+
     //create the main box element
     var gameBoxEl = document.createElement("div");
     gameBoxEl.setAttribute("id", "game-card");
+    if (isHistoric) {
+        gameBoxEl.setAttribute("data-is-historic", "historic");
+    }
     //create the game title and format it to use in search
     var preFormatedGameTitle = gameDetails.name;
     var formatedGameTitle = preFormatedGameTitle.toLowerCase().split(" ").join("%");
@@ -74,37 +85,40 @@ var createMainCard = function (gameDetails) {
     else {
         gameEsrbEl.textContent = `ESRB rating: ${gameRating.name}`;
     }
-
     gameBoxEl.appendChild(gameEsrbEl);
-
 
     topTenBoxEl.prepend(gameBoxEl);
 }
 // Fetch to gather the info to display about the game
-var getGameDetails = async function (gameName) {
-    await fetch(`https://api.rawg.io/api/games/${gameName}`, {
-        "method": "GET",
-    })
-        .then(async (response) => {
-            response.json().then(function (data) {
-                createMainCard(data);
-            });
+var getGameDetails = async function (gameName, isHistoric) {
+    if (gameName) {
+        await fetch(`https://api.rawg.io/api/games/${gameName}`, {
+            "method": "GET",
         })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(async (response) => {
+                response.json().then(function (data) {
+                    createMainCard(data, isHistoric);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        searchText.setAttribute("placeholder", "This was empty, Try again");
+    }
 }
 
 // function for getting the data in the search form
 var searchSubmit = function (event) {
     event.preventDefault();
+    searchText.setAttribute("placeholder", "Search for a Video Game");
     var gameTitle = {}
     gameTitle.name = searchText.value.trim();
     if (gameTitle) {
         gameTitle.slug = gameTitle.name.toLowerCase().split(" ").join("-");
         gameTitle.slug = gameTitle.slug.split(":").join("");
 
-        getGameDetails(gameTitle.slug);
+        getGameDetails(gameTitle.slug, true);
 
         if (!pastSearches.includes(gameTitle)) {
             pastSearches.push(gameTitle);
@@ -223,23 +237,31 @@ closeButton.addEventListener("click", function () {
     modalOverlay.classList.toggle("closed");
 });
 
-//API call based on the searched string
+// API call based on the searched string
 var searchAuto = function (keyString) {
     fetch(`https://api.rawg.io/api/games?search=${keyString}`, {
         "method": "GET",
     })
+    // on a successful get
         .then(response => {
             response.json().then(function (data) {
+                // empties the game array;
                 gamesArr = [];
+
+                // if there are objects in pastSearches
                 if (pastSearches) {
+                    //run through them all
                     for (var i = 0; i < pastSearches.length; i++) {
+                        // assigns them to the gamesArr
                         gamesArr.push(pastSearches[i].name);
                     }
                 }
+                // for every object in data results
                 for (var i = 0; i < data.results.length; i++) {
+                    //push them, to the gameArray
                     gamesArr.push(data.results[i].name);
                 }
-
+                // pass thhat array to the filler function.
                 filler(gamesArr);
             })
         })
@@ -248,26 +270,52 @@ var searchAuto = function (keyString) {
         });
 }
 
-//Adds info for the autocomplete function
+// Adds info for the autocomplete function
 var filler = function (gamesArr) {
+    // clears the data list per query
     searchListEl.innerHTML = '';
+    // for every item in the game list
     for (var i = 0; i < gamesArr.length && i < 11; i++) {
+        // create an option element
         var listItemEl = document.createElement("option");
+        // assign the text, and value
         listItemEl.textContent = gamesArr[i];
         listItemEl.setAttribute("value", gamesArr[i]);
 
+        // determines if there has been previous history
         if (pastSearches && i < pastSearches.length) {
+            // if there has been applies the id for styling.
             listItemEl.setAttribute("id", "historic");
         }
-
+        // adds it to the datalist
         searchListEl.appendChild(listItemEl);
-
     }
 }
 // event listner for the keyup in the search area
+//// gets the value of the ipnut after 2 keys, and passes it to the search function.
 searchText.addEventListener("keyup", function (e) {
     var keyString = e.target.value;
     if (keyString.length >= 2) {
         searchAuto(keyString);
     }
 });
+var clearSearches = function () {
+    // goes through each child of topTenBoxEl
+    for(var i = 0; i < topTenBoxEl.children.length; i++) {
+        // if that child has the attribute data-is-historic
+        if (topTenBoxEl.children[i].getAttribute("data-is-historic")) {
+            // removes that child
+            topTenBoxEl.removeChild(topTenBoxEl.children[i]);
+            clearSearches();
+            i = topTenBoxEl.children.length;
+        }
+    }
+    // clears the past searches array
+    pastSearches = [];
+    // and the local storage.
+    localStorage.clear();
+}
+
+// event listener to clear all previously searched items
+deleteBtnEl.addEventListener("click", clearSearches);
+

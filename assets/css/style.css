@@ -40,13 +40,10 @@ h1 {
     font-size: 50px;
 }
 
-button {
-    background: #0078e7;
-    border-radius: 5px;
-}
 .user-form {
   display: flex;
   align-items: center;
+  
 }
 
 #userSearch {
@@ -64,8 +61,37 @@ button {
   width:220px;
 }
 
+button:focus, input:focus {
+  outline:none;
+}
+
 #submit-btn {
   color: #fff;
+  background: #0078e7;
+}
+#submit-btn:hover {
+  font-weight: bold;
+}
+
+.delete-btn-container {
+  display:flex;
+  height: 40px;
+  width: 100%;
+  justify-content: center;
+}
+#delete-btn {
+  background-color: #AEA43F;
+  color: #832621;
+  font-weight: 900;
+  border: 4px outset #832621;
+  border-radius: 5px;
+  padding: 0 10px 0 10px;
+}
+#delete-btn:hover {
+  border-color: #AEA43F;
+  background-color: #832621;
+  color: #AEA43F;
+  border-style: inset;
 }
 
 #top-ten {
@@ -198,6 +224,7 @@ a{
 #game-card {
   border: 4px outset #AEA43F;
 }
+
 #main-card-image{
   width: 50%;
 }
