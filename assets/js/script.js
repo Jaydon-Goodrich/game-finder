@@ -151,6 +151,31 @@ var createModal = function (gameId) {
                     modalReviewTitle.textContent = ReviewTitle;
                     reviewAuthor.textContent = "By: " + author;
                     modalBody.appendChild(fullReview);
+                    var dashedGame = gameId.split("%").join("-");
+                    fetch(`https://api.rawg.io/api/games/${dashedGame}`, {
+                        "method": "GET",
+                    })
+                        .then(async (response) => {
+                            response.json().then(function (data) {
+                                var storeData = data.stores;
+                                var buyGames = document.createElement("h2");
+                                buyGames.textContent = "Purchase the game here: ";
+                                modalBody.appendChild(buyGames);
+
+                                for(var i = 0; i < storeData.length; i++){
+                                    var storeInfo = document.createElement("a");
+                                    storeInfo.textContent = storeData[i].store.name;
+                                    storeInfo.setAttribute("href", storeData[i].url);
+                                    storeInfo.setAttribute("target", "_blank");
+                                    var br = document.createElement("br");
+                                    modalBody.appendChild(storeInfo);
+                                    modalBody.appendChild(br);
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
                     openModal();
                 }
             })
@@ -192,7 +217,7 @@ var searchAuto = function (keyString) {
         .then(response => {
             response.json().then(function (data) {
                 gamesArr = [];
-                if(pastSearches) {
+                if (pastSearches) {
                     for (var i = 0; i < pastSearches.length; i++) {
                         gamesArr.push(pastSearches[i].name);
                     }
@@ -200,7 +225,7 @@ var searchAuto = function (keyString) {
                 for (var i = 0; i < data.results.length; i++) {
                     gamesArr.push(data.results[i].name);
                 }
-            
+
                 filler(gamesArr);
             })
         })
