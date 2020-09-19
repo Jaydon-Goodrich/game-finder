@@ -40,3 +40,8 @@ JS
 ## Screenshots
 
 ![](assets/images/gamefinderSS.png)
+
+
+## Demo
+
+[download a video](assets/images/GameFinder.mp4)
