@@ -37,7 +37,7 @@ JS
     
 ## Where to find the game
 
-[Click Here](https://sithslave.github.io/game-finder/)
+[Click Here](https://jaydon-goodrich.github.io/game-finder/)
 
 ## Screenshots
 
