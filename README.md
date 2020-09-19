@@ -14,6 +14,8 @@
     * The Title
     * The Where the game is available, and how much it costs currently at those locations.
     
+  * The ability to clear your search history, and local storage.
+    
 ## Contributors
 
 Jaydon Goodrich
