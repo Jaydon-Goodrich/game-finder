@@ -37,8 +37,20 @@ var getTopTen = function () {
 }
 //Function that displays the top 10
 var displayTopTen = function (gameDataArr) {
+
+    var gameTitles = [];
+
+    if (pastSearches) {
+        for (var i = 0; i < pastSearches.length; i++) {
+            gameTitles.push(pastSearches[i].slug);
+        }
+    }
     for (var i = 9; i >= 0; i--) {
-        getGameDetails(gameDataArr[i].slug);
+        gameTitles.push(gameDataArr[i].slug);
+    }
+
+    for (var i = 0; i < gameTitles.length; i++) {
+        getGameDetails(gameTitles[i]);
     }
 }
 //Function for displaying the game info in a card
